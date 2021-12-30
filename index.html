@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Type Ahead 👀</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <form class="search-form">
@@ -14,46 +16,54 @@
       <li>or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
-const cities = [];
+    const cities = [];
 
-// using fetch which returns a promise
-fetch(endpoint)
-  .then(response => response.json())
-  // to avoid nested arrays and push cities individually we use spread
-  .then(data => cities.push(...data));
+    // using fetch which returns a promise
+    fetch(endpoint)
+      .then(response => response.json())
+      // to avoid nested arrays and push cities individually we use spread
+      .then(data => cities.push(...data));
 
-// function that takes array and filter it into subset
-function findMatches(wordToMatch, cities) {
-  return cities.filter(place => {
-    // need to set up regex outside of return to let wordToMatch be dynamic search
-    const regex = new RegExp(wordToMatch, 'gi')
-    // city or state match what was searched?
-    return place.city.match(regex) || place.state.match(regex)
-  });
-}
+    // function that takes array and filter it into subset
+    function findMatches(wordToMatch, cities) {
+      return cities.filter(place => {
+        // need to set up regex outside of return to let wordToMatch be dynamic search
+        const regex = new RegExp(wordToMatch, 'gi')
+        // city or state match what was searched?
+        return place.city.match(regex) || place.state.match(regex)
+      });
+    }
 
-// will be called whenever value is changed in search
-function displayMatches() {
-  const matchArray = findMatches(this.value, cities); // returning array of results (cities)
-  
+    // will be called whenever value is changed in search
+    function displayMatches() {
+      const matchArray = findMatches(this.value, cities); // returning array of results (cities)
+      // loop over data and from results, return the city, state and population
+      const html = matchArray.map(place => {
+        return `
+        <li>
+          <span class="name">${place.city}, ${place.state}</span>
+          <span class="population">${place.population}</span>
+        </li>
+        `;
+      }).join(''); // returning a string rather than array with mulple items that map will give us
+      suggestions.innerHTML = html;
+    }
+
+    // grab selectors from input
+    const searchInput = document.querySelector('.search');
+    const suggestions = document.querySelector('.suggestions');
+
+    // when input changes, we run displayMatches
+    // change is firing only when you go 'off' the input (click off)
+    searchInput.addEventListener('change', displayMatches);
+    // add to also fire on keyup event
+    searchInput.addEventListener('keyup', displayMatches);
 
 
-}
-
-// grab selectors from input
-const searchInput = document.querySelector('.search');
-const suggestions = document.querySelector('.suggestions');
-
-// when input changes, we run displayMatches
-// change is firing only when you go 'off' the input (click off)
-searchInput.addEventListener('change', displayMatches);
-// add to also fire on keyup event
-searchInput.addEventListener('keyup', displayMatches);
-
-
-</script>
+  </script>
 </body>
+
 </html>
