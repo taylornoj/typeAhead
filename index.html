@@ -42,13 +42,17 @@
       const matchArray = findMatches(this.value, cities); // returning array of results (cities)
       // loop over data and from results, return the city, state and population
       const html = matchArray.map(place => {
+        const regex = new RegExp(this.value, 'gi'); // create regex to match city name and use regex to replace word it matches with span class=hl
+        // replace matching regex searched, with the highlight over value searched
+        const cityName = place.city.replace(regex, 
+        `<span class="hl">${this.value}</span>`);
         return `
         <li>
-          <span class="name">${place.city}, ${place.state}</span>
+          <span class="name">${cityName}, ${place.state}</span>
           <span class="population">${place.population}</span>
         </li>
         `;
-      }).join(''); // returning a string rather than array with mulple items that map will give us
+      }).join(''); // returning a string rather than array with multiple items that map will give us
       suggestions.innerHTML = html;
     }
 
