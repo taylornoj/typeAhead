@@ -25,6 +25,16 @@ fetch(endpoint)
   // to avoid nested arrays and push cities individually we use spread
   .then(data => cities.push(...data));
 
+// function that takes array and filter it into subset
+function findMatches(wordToMatch, cities) {
+  return cities.filter(place => {
+    // need to set up regex outside of return to let wordToMatch be dynamic search
+    const regex = new RegExp(wordToMatch, 'gi')
+    // city or state match what was searched?
+    return place.city.match(regex) || place.state.match(regex)
+  });
+}
+
 
 </script>
 </body>
