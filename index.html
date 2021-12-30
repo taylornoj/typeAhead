@@ -35,6 +35,21 @@ function findMatches(wordToMatch, cities) {
   });
 }
 
+// will be called whenever value is changed in search
+function displayMatches() {
+  console.log(this.value);
+
+
+}
+
+// grab selectors from input
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+// when input changes, we run displayMatches
+searchInput.addEventListener('change', displayMatches);
+
+
 
 </script>
 </body>
