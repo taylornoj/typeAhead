@@ -37,7 +37,8 @@ function findMatches(wordToMatch, cities) {
 
 // will be called whenever value is changed in search
 function displayMatches() {
-  console.log(this.value);
+  const matchArray = findMatches(this.value, cities); // returning array of results (cities)
+  
 
 
 }
@@ -47,8 +48,10 @@ const searchInput = document.querySelector('.search');
 const suggestions = document.querySelector('.suggestions');
 
 // when input changes, we run displayMatches
+// change is firing only when you go 'off' the input (click off)
 searchInput.addEventListener('change', displayMatches);
-
+// add to also fire on keyup event
+searchInput.addEventListener('keyup', displayMatches);
 
 
 </script>
