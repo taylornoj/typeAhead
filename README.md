@@ -1,0 +1,1 @@
+![gif of search](https://github.com/taylornoj/typeAhead/blob/master/docs/typegif.gif?raw=true)
